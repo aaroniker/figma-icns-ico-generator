@@ -26,3 +26,12 @@ npm run build
 After that open a project in Figma Desktop, select _Plugins -> Development -> New Plugin_. Click `Choose a manifest.json` and find the `manifest.json` file in this plugin directory.
 
 Done! Now _Plugins -> Development -> icns/ico Generator_
+
+## ToDo
+
+- [ ] Set export size (e.x. if you design your icon in 128x128 but wanna export it in 8x)
+
+## Authors
+
+- Aaron Iker ([Twitter](https://twitter.com/aaroniker_me))
+- Andreas Storm ([Twitter](https://twitter.com/st8rmi))
