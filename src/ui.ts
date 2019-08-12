@@ -38,7 +38,10 @@ window.onmessage = async (event) => {
                     src: 'data:image/png;base64,' + base64
                 })
                 setTimeout(() => {
-                    $('#download img').addClass('show')
+                    $('#download .preview span').addClass('hide')
+                    setTimeout(() => {
+                        $('#download img').addClass('show')
+                    }, 100)
                 }, 50)
                 if(event.data.pluginMessage.size < 512) {
                     $('#download .preview p').addClass('show')
