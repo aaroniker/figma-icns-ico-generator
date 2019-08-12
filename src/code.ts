@@ -1,16 +1,19 @@
 async function compile(node) {
     if(node.type == 'FRAME') {
         if(node.width == node.height) {
-            if(node.width <= 2000) {
+            if(node.width <= 2048) {
                 node.exportAsync().then(buffer => {
-                    figma.showUI(__html__)
+                    figma.showUI(__html__, {
+                        width: 312,
+                        height: 252
+                    })
                     figma.ui.postMessage({
                         type: 'compile',
                         buffer: buffer
                     })
                 })
             } else {
-                figma.closePlugin('Maximal width/height is 2000px')
+                figma.closePlugin('Maximal width/height is 2048px')
             }
         } else {
             figma.closePlugin('Selection must be a square')

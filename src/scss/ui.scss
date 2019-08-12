@@ -1,33 +1,58 @@
-$primary: #18a0fb;
-
 #download {
-    font-family: Inter, sans-serif;
-    font-weight: 400;
-    font-size: 12px;
-    line-height: 18px;
-    padding: 0 6px;
-    a {
-        color: #fff;
-        cursor: pointer;
-        background-color: $primary;
-        font-weight: 500;
-        padding: 5px 16px 5px 16px;
-        border: 2px solid transparent;
-        border-radius: 6px;
-        display: table;
-        text-decoration: none;
+    font-family: Inter, Arial;
+    padding: 6px 6px 0 6px;
+    .preview {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        width: 100%;
+        height: 160px;
+        border-radius: 3px;
+        background: #E1E1E1;
+        img {
+            display: block;
+            max-width: 100px;
+            max-height: 100px;
+            width: 100%;
+            filter: drop-shadow(0 1px 3px rgba(0, 0, 0, .12));
+        }
+        p {
+            position: absolute;
+            margin: 0;
+            font-size: 11px;
+            line-height: 16px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-style: italic;
+            bottom: 4px;
+            color: rgba(#000, .5);
+        }
     }
-    p {
-        color: rgba(0, 0, 0, .8);
-        margin: 0 0 8px 0;
-    }
-    img {
-        display: block;
-        max-width: 92px;
-        max-height: 92px;
-        border: 1px solid rgba(0, 0, 0, .2);
-        padding: 8px;
-        border-radius: 4px;
-        margin: 0 0 8px 0;
+    .action {
+        margin-top: 20px;
+        display: grid;
+        grid-gap: 20px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        a {
+            font-weight: bold;
+            font-size: 14px;
+            line-height: 17px;
+            display: block;
+            text-decoration: none;
+            color: #000000;
+            border-radius: 3px;
+            border: 1px solid #000000;
+            cursor: pointer;
+            padding: 9px 0;
+            text-align: center;
+            background: #fff;
+            transition: color .3s ease, background .3s ease;
+            &:hover {
+                color: #fff;
+                background: #000;
+            }
+        }
     }
 }

@@ -28,8 +28,11 @@ window.onmessage = async (event) => {
             body: data
         }).then(response => {
             response.json().then(res => {
-                $('#download a').attr({
+                $('#download #icns').attr({
                     href: res.url
+                })
+                $('#download #ico').attr({
+                    href: res.urlIco
                 })
                 $('#download img').attr({
                     src: 'data:image/png;base64,' + base64
