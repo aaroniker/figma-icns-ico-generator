@@ -15,7 +15,11 @@
             max-width: 100px;
             max-height: 100px;
             width: 100%;
-            filter: drop-shadow(0 1px 3px rgba(0, 0, 0, .12));
+            transition: opacity .3s ease, transform .3s ease;
+            &:not(.show) {
+                opacity: 0;
+                transform: scale(.92) translateY(-4px);
+            }
         }
         p {
             position: absolute;
@@ -28,6 +32,10 @@
             font-style: italic;
             bottom: 4px;
             color: rgba(#000, .5);
+            transition: opacity .3s ease;
+            &:not(.show) {
+                opacity: 0;
+            }
         }
     }
     .action {

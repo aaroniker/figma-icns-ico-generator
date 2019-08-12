@@ -9,7 +9,8 @@ async function compile(node) {
                     })
                     figma.ui.postMessage({
                         type: 'compile',
-                        buffer: buffer
+                        buffer: buffer,
+                        size: node.width
                     })
                 })
             } else {
