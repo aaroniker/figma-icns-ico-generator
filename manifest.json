@@ -1,5 +1,5 @@
 {
-    "name": ".icns File Generator",
+    "name": "icns/ico Generator",
     "id": "742318143106037364",
     "api": "1.0.0",
     "main": "dist/code.js",
