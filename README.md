@@ -2,7 +2,7 @@
 
 Generate .icns ([Apple Icon Image format](https://en.wikipedia.org/wiki/Apple_Icon_Image_format)) / .ico ([ICO (file format)](https://en.wikipedia.org/wiki/ICO_(file_format))) files directly from Figma.
 
-![Preview](https://aaroniker.me/icns-preview.png)
+![Preview](https://aaroniker.me/icns-ico-preview.png)
 
 ## Usage
 
