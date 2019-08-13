@@ -1,26 +1,22 @@
 async function compile(node) {
-    if(node.type == 'FRAME') {
-        if(node.width == node.height) {
-            if(node.width <= 2048) {
-                node.exportAsync().then(buffer => {
-                    figma.showUI(__html__, {
-                        width: 312,
-                        height: 252
-                    })
-                    figma.ui.postMessage({
-                        type: 'compile',
-                        buffer: buffer,
-                        size: node.width
-                    })
+    if(node.type == 'FRAME' && node.width == node.height) {
+        if(node.width <= 2048) {
+            node.exportAsync().then(buffer => {
+                figma.showUI(__html__, {
+                    width: 312,
+                    height: 252
                 })
-            } else {
-                figma.closePlugin('Maximal width/height is 2048px')
-            }
+                figma.ui.postMessage({
+                    type: 'compile',
+                    buffer: buffer,
+                    size: node.width
+                })
+            })
         } else {
-            figma.closePlugin('Selection must be a square')
+            figma.closePlugin('Maximal width/height is 2048px')
         }
     } else {
-        figma.closePlugin('Select a single Frame node.')
+        figma.closePlugin('Select a single quadratic frame node.')
     }
 }
 
