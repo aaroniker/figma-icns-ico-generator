@@ -16,12 +16,12 @@ async function compile(node) {
             figma.closePlugin('Maximal width/height is 2048px')
         }
     } else {
-        figma.closePlugin('Select a single quadratic frame node.')
+        figma.closePlugin('Please select a square frame')
     }
 }
 
 if(figma.currentPage.selection.length !== 1) {
-    figma.closePlugin('Select a single node.')
+    figma.closePlugin('Please select a single node')
 }
 
 compile(figma.currentPage.selection[0])
