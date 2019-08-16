@@ -1,6 +1,12 @@
 async function compile(node) {
     if(node.type == 'FRAME' && node.width == node.height) {
         if(node.width <= 2048) {
+            function slugify(string) {
+                const a = 'àáäâãåăæąçćčđďèéěėëêęğǵḧìíïîįłḿǹńňñòóöôœøṕŕřßşśšșťțùúüûǘůűūųẃẍÿýźžż·/_,:;'
+                const b = 'aaaaaaaaacccddeeeeeeegghiiiiilmnnnnooooooprrsssssttuuuuuuuuuwxyyzzz------'
+                const p = new RegExp(a.split('').join('|'), 'g')
+                return string.toString().toLowerCase().replace(/\s+/g, '-').replace(p, c => b.charAt(a.indexOf(c))).replace(/&/g, '-and-').replace(/[^\w\-]+/g, '').replace(/\-\-+/g, '-').replace(/^-+/, '').replace(/-+$/, '')
+            }
             node.exportAsync().then(buffer => {
                 figma.showUI(__html__, {
                     width: 312,
@@ -9,7 +15,8 @@ async function compile(node) {
                 figma.ui.postMessage({
                     type: 'compile',
                     buffer: buffer,
-                    size: node.width
+                    size: node.width,
+                    name: slugify(node.name)
                 })
             })
         } else {

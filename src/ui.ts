@@ -16,6 +16,7 @@ window.onmessage = async (event) => {
         }
 
         let data = new FormData(),
+            name = event.data.pluginMessage.name,
             base64 = btoa(new Uint8Array(event.data.pluginMessage.buffer).reduce((data, byte) => {
                 return data + String.fromCharCode(byte)
             }, ''));
@@ -29,10 +30,10 @@ window.onmessage = async (event) => {
         }).then(response => {
             response.json().then(res => {
                 $('#download #icns').attr({
-                    href: res.url
+                    href: res.url + '/' + name + '.icns'
                 })
                 $('#download #ico').attr({
-                    href: res.urlIco
+                    href: res.urlIco + '/' + name + '.ico'
                 })
                 $('#download img').attr({
                     src: 'data:image/png;base64,' + base64
