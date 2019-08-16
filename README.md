@@ -6,7 +6,7 @@ Generate .icns ([Apple Icon Image format](https://en.wikipedia.org/wiki/Apple_Ic
 
 ## Usage
 
-Not on the Figma plugin library yet ...
+Download it at the Figma plugin library [figma.com/c/plugin/742318143106037364/icns%2Fico-Generator](https://www.figma.com/c/plugin/742318143106037364/icns%2Fico-Generator)
 
 ## Development
 
