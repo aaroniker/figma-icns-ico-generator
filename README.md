@@ -30,6 +30,7 @@ Done! Now _Plugins -> Development -> icns/ico Generator_
 ## ToDo
 
 - [ ] Set export size (e.x. if you design your icon in 128x128 but wanna export it in 8x)
+- [ ] Select multiple frames for different sizes
 
 ## Authors
 
