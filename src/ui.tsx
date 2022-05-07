@@ -70,7 +70,7 @@ export const App: React.FC = () => {
         <img src={imgSource} className={showImg && "show"} />
         <span className={hidePreview && "hide"}></span>
         <p className={tooSmall && "show"}>
-          Frame node should be at least 512x512 to cover all use cases
+          Frame should be at least 512x512 to cover all use cases
         </p>
       </div>
       <div className="action">
