@@ -21,7 +21,8 @@ async function compile(node) {
       node.exportAsync().then((buffer) => {
         figma.showUI(__html__, {
           width: 312,
-          height: 252,
+          height: 272,
+          themeColors: true,
         });
         figma.ui.postMessage({
           type: "compile",

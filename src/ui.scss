@@ -7,9 +7,9 @@
     align-items: center;
     position: relative;
     width: 100%;
-    height: 160px;
+    height: 180px;
     border-radius: 3px;
-    background: #e1e1e1;
+    background: var(--figma-color-bg-hover);
     img {
       display: block;
       max-width: 100px;
@@ -46,7 +46,7 @@
       text-align: center;
       font-style: italic;
       bottom: 4px;
-      color: rgba(#000, 0.3);
+      color: var(--figma-color-text-secondary);
       transition: opacity 0.3s ease;
       &:not(.show) {
         opacity: 0;
@@ -64,17 +64,17 @@
       line-height: 17px;
       display: block;
       text-decoration: none;
-      color: #000000;
+      color: var(--figma-color-text);
       border-radius: 3px;
-      border: 1px solid #000000;
+      border: 1px solid var(--figma-color-text);
       cursor: pointer;
       padding: 9px 0;
       text-align: center;
-      background: #fff;
+      background: var(--figma-color-bg);
       transition: color 0.3s ease, background 0.3s ease;
       &:hover {
-        color: #fff;
-        background: #000;
+        color: var(--figma-color-bg);
+        background: var(--figma-color-text);
       }
     }
   }
