@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 import "./ui.css";
 
-const API_URL = "https://figma.aaron.page";
+const API_URL = "https://figma-icns-file-generator-api.vercel.app";
 
 function generateRandom(length: number): string {
   const characters =
@@ -14,6 +14,27 @@ function generateRandom(length: number): string {
   return result;
 }
 
+type PluginMessage = {
+  type: string;
+  buffer: ArrayBuffer;
+  size: number;
+  name: string;
+};
+
+const messageQueue: PluginMessage[] = [];
+let messageCallback: ((msg: PluginMessage) => void) | null = null;
+
+window.onmessage = (event: MessageEvent) => {
+  const msg = event.data?.pluginMessage;
+  if (!msg || msg.type !== "compile") return;
+
+  if (messageCallback) {
+    messageCallback(msg);
+  } else {
+    messageQueue.push(msg);
+  }
+};
+
 export const App: React.FC = () => {
   const [icns, setIcns] = useState("");
   const [ico, setIco] = useState("");
@@ -24,10 +45,7 @@ export const App: React.FC = () => {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    window.onmessage = async (event: MessageEvent) => {
-      const msg = event.data?.pluginMessage;
-      if (!msg || msg.type !== "compile") return;
-
+    const handleMessage = async (msg: PluginMessage) => {
       const name = msg.name;
       const base64 = btoa(
         new Uint8Array(msg.buffer).reduce(
@@ -66,6 +84,16 @@ export const App: React.FC = () => {
         console.error("Failed to generate icons:", e);
         setError(e.message || "Failed to generate icons");
       }
+    };
+
+    messageCallback = handleMessage;
+
+    while (messageQueue.length > 0) {
+      handleMessage(messageQueue.shift()!);
+    }
+
+    return () => {
+      messageCallback = null;
     };
   }, []);
 
