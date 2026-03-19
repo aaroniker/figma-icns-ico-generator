@@ -29,13 +29,9 @@ module.exports = (__, argv) => ({
         test: /\.svg/,
         type: "asset/inline",
       },
-      {
-        test: /\.s[ac]ss$/i,
-        use: ["style-loader", "css-loader", "sass-loader"],
-      },
     ],
   },
-  resolve: { extensions: [".tsx", ".ts", ".jsx", ".js", ".scss"] },
+  resolve: { extensions: [".tsx", ".ts", ".jsx", ".js"] },
   output: {
     filename: "[name].js",
     path: path.resolve(__dirname, "dist"),
