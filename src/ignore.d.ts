@@ -1,2 +1,4 @@
-// @ts-ignore
-type ShowUIOptions = any;
+declare module "*.css" {
+  const content: Record<string, string>;
+  export default content;
+}

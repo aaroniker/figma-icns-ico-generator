@@ -1,65 +1,70 @@
 import React, { useEffect, useState } from "react";
-import ReactDOM from "react-dom";
-import "./ui.scss";
+import { createRoot } from "react-dom/client";
+import "./ui.css";
+
+const API_URL = "https://figma.aaron.page";
+
+function generateRandom(length: number): string {
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let result = "";
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+  return result;
+}
 
 export const App: React.FC = () => {
-  const [icns, setIcns] = useState<string>("");
-  const [ico, setIco] = useState<string>("");
-  const [imgSource, setImgSource] = useState<string>("");
-  const [hidePreview, setHidePreview] = useState<boolean>(false);
-  const [showImg, setShowImg] = useState<boolean>(false);
-  const [tooSmall, setTooSmall] = useState<boolean>(false);
+  const [icns, setIcns] = useState("");
+  const [ico, setIco] = useState("");
+  const [imgSource, setImgSource] = useState("");
+  const [hidePreview, setHidePreview] = useState(false);
+  const [showImg, setShowImg] = useState(false);
+  const [tooSmall, setTooSmall] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    window.onmessage = async (event) => {
-      if (event.data.pluginMessage.type == "compile") {
-        function random(length) {
-          let result = "",
-            characters =
-              "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789",
-            charactersLength = characters.length;
-          for (let i = 0; i < length; i++) {
-            result += characters.charAt(
-              Math.floor(Math.random() * charactersLength)
-            );
-          }
-          return result;
+    window.onmessage = async (event: MessageEvent) => {
+      const msg = event.data?.pluginMessage;
+      if (!msg || msg.type !== "compile") return;
+
+      const name = msg.name;
+      const base64 = btoa(
+        new Uint8Array(msg.buffer).reduce(
+          (data: string, byte: number) => data + String.fromCharCode(byte),
+          ""
+        )
+      );
+
+      try {
+        const response = await fetch(`${API_URL}/api/icns`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ base64, random: generateRandom(16) }),
+        });
+
+        if (!response.ok) {
+          const err = await response.json().catch(() => null);
+          throw new Error(err?.error || `Server error: ${response.status}`);
         }
 
-        let data = new FormData(),
-          name = event.data.pluginMessage.name,
-          base64 = btoa(
-            new Uint8Array(event.data.pluginMessage.buffer).reduce(
-              (data, byte) => {
-                return data + String.fromCharCode(byte);
-              },
-              ""
-            )
-          );
+        const res = await response.json();
 
-        data.append("base64", base64);
-        data.append("random", random(16));
+        setIcns(`${API_URL}${res.url}/${name}.icns`);
+        setIco(`${API_URL}${res.urlIco}/${name}.ico`);
+        setImgSource("data:image/png;base64," + base64);
 
-        fetch("https://aaroniker.me/api/icns", {
-          method: "POST",
-          body: data,
-        }).then((response) => {
-          response.json().then((res) => {
-            setIcns(res.url + "/" + name + ".icns");
-            setIco(res.urlIco + "/" + name + ".ico");
-            setImgSource("data:image/png;base64," + base64);
+        setTimeout(() => {
+          setHidePreview(true);
+          setTimeout(() => setShowImg(true), 100);
+        }, 50);
 
-            setTimeout(() => {
-              setHidePreview(true);
-              setTimeout(() => {
-                setShowImg(true);
-              }, 100);
-            }, 50);
-            if (event.data.pluginMessage.size < 512) {
-              setTooSmall(true);
-            }
-          });
-        });
+        if (msg.size < 512) {
+          setTooSmall(true);
+        }
+      } catch (e: any) {
+        console.error("Failed to generate icons:", e);
+        setError(e.message || "Failed to generate icons");
       }
     };
   }, []);
@@ -67,18 +72,29 @@ export const App: React.FC = () => {
   return (
     <div id="download">
       <div className="preview">
-        <img src={imgSource} className={showImg && "show"} />
-        <span className={hidePreview && "hide"}></span>
-        <p className={tooSmall && "show"}>
-          Frame should be at least 512x512 to cover all use cases
-        </p>
+        <img src={imgSource} className={showImg ? "show" : ""} alt="Icon preview" />
+        <span className={hidePreview ? "hide" : ""}></span>
+        {error ? (
+          <p className="show" style={{ color: "var(--figma-color-text-danger)" }}>
+            {error}
+          </p>
+        ) : (
+          <p className={tooSmall ? "show" : ""}>
+            Frame should be at least 512x512 to cover all use cases
+          </p>
+        )}
       </div>
       <div className="action">
-        <a href={icns}>icns</a>
-        <a href={ico}>ico</a>
+        <a href={icns || undefined} target="_blank" rel="noopener noreferrer">
+          icns
+        </a>
+        <a href={ico || undefined} target="_blank" rel="noopener noreferrer">
+          ico
+        </a>
       </div>
     </div>
   );
 };
 
-ReactDOM.render(<App />, document.getElementById("react-page"));
+const root = createRoot(document.getElementById("react-page")!);
+root.render(<App />);
